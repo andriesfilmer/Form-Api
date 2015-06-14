@@ -16,6 +16,7 @@ function registerAPI(form) {
     name: form.name.value,
     phone: form.phone.value,
     email: form.email.value,
+    required: ['name','phone','email'],
     question: form.question.value,
     recaptcha: document.getElementById("g-recaptcha-response").value
   };
@@ -79,7 +80,7 @@ function showError(err) {
 </form>
 
 <div id="success" style="display:none">
-  Successfully registered, yay.
+  Mail has been send, we will contact you soon.
 </div>
 
 </body>

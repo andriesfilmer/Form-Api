@@ -1,18 +1,32 @@
-var https = require('https');
+var functions = require('../functions.js');
 var secret = require('../config/secret.js');
+
+// Set a site-key which is create by Google.
+var secret_site_key = secret.site_key_example;
 
 exports.create = function(req, res) {
 
-  verifyRecaptcha(req.body.recaptcha, function(success) {
+
+  if (req.body.required !== undefined ) {
+    var required = req.body.required.toString().split(",");
+    required.forEach(function(entry) {
+      //console.log('##### array -> ' + entry + ": " + req.body[entry]); 
+      if (req.body[entry] === '') {
+        res.end(JSON.stringify({ registeredSuccessfully: false, reason: "Required field is empty, try again." }));
+      }
+    });
+  }
+
+  functions.verifyRecaptcha(req.body.recaptcha, secret_site_key, function(success) {
     if (success) {
       res.end(JSON.stringify({ registeredSuccessfully: true }));
     } else {
       res.end(JSON.stringify({ registeredSuccessfully: false, reason: "Captcha failed, try again." }));
-      // Debug
-      //console.log('##### test -> failed'); 
-      //console.log('##### curl --data ' + '"secret=' + secret.site_key + "&response=" + req.body["recaptcha"] + '" https://www.google.com/recaptcha/api/siteverify');
-    }
 
+      // Debug
+      //console.log('##### curl --data ' + '"secret=' + secret.site_key + "&response=" + req.body["recaptcha"] + '" https://www.google.com/recaptcha/api/siteverify');
+
+    }
   });
 
   // Optional is a redirect to a other html page.
@@ -20,20 +34,3 @@ exports.create = function(req, res) {
 
 }
 
-// Helper function to make API call to recatpcha and check response
-function verifyRecaptcha(key, callback) {
-        https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + secret.site_key + "&response=" + key, function(res) {
-                var data = "";
-                res.on('data', function (chunk) {
-                        data += chunk.toString();
-                });
-                res.on('end', function() {
-                        try {
-                                var parsedData = JSON.parse(data);
-                                callback(parsedData.success);
-                        } catch (e) {
-                                callback(false);
-                        }
-                });
-        });
-}
