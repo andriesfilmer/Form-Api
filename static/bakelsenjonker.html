@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>BAKELS & JONKER | Boekhoudkantoor | Accountancy | Contact opnemen met BAKELS & JONKER</title>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script type="text/javascript" charset="utf-8">
+function registerAPI(form) {
+  var params = {
+    name: form.name.value,
+    phone: form.phone.value,
+    email: form.email.value,
+    question: form.question.value,
+    recaptcha: document.getElementById("g-recaptcha-response").value
+  };
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:3001/mailer/bakelsenjonker");
+  xhr.onload = function() {
+    var json = JSON.parse(xhr.responseText);
+    console.log(json);
+    if (json.registeredSuccessfully) {
+      showSuccess();
+    } else {
+      showError(json.reason);
+    }
+  }
+  xhr.setRequestHeader("Content-type", "application/json");
+  xhr.send(JSON.stringify(params));
+}
+
+function showSuccess() {
+  document.getElementById("form").style.display = "none";
+  document.getElementById("success").style.display = "block";
+}
+
+function showError(err) {
+  document.getElementById("error").innerHTML = err;
+}
+
+</script>
+</head>
+<body>
+<h2>Contactformulieri test</h2>
+<form action="#" method="post" onsubmit="registerAPI(this);return false;" id="form" class="fancy">
+    <div id="error"></div>
+                <label for='element_4e09f70f7d4b5'>Uw Naam&nbsp;<sup>*</sup></label>
+          <div class='block'>          
+            <input type="text" name="name" id="name" value="" class=":required :only_on_submit formtext"  /></div>
+          <div class='clear'></div>
+      <label for='element_4e09f72374343'>Uw telefoonnummer&nbsp;<sup>*</sup></label>
+          <div class='block'>          
+            <input type="text" name="phone" id="phone" value="" class=" formtext"  /></div>
+          <div class='clear'></div>
+      <label for='element_4e09f70f7dc7f'>Uw E-mail adres&nbsp;<sup>*</sup></label>
+          <div class='block'>          
+            <input type="text" name="email" id="email" value="" class=":required :email :only_on_submit formtext"  /></div>
+          <div class='clear'></div>
+      <label for='element_4e09f70f7e093'>Uw Vraag</label>
+          <div class='block'>          
+            <textarea name="question" id="question" cols="24" rows="5" ></textarea></div>
+          <div class='clear'></div>
+              
+        <p><sup>*</sup><span class="note"> Dit veld is verplicht</span></p>
+        <p align="right"><input type="submit" value="Verzenden"/></p>          
+<div class="g-recaptcha" data-sitekey="6Lf_GwgTAAAAAGk1bXAjUgEh2xJeRFPbktsoa_bC"></div>
+    </form>
+
+  <div id="success" style="display:none">
+    Successfully registered, yay.
+  </div>
+
+
+</body>
+</html>
