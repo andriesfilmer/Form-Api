@@ -14,14 +14,14 @@ var envelope = {
       "to": ["andries@inzetrooster.nl"],
       "bcc": ["andries@filmer.nl"],
       "cc": [req.body.email],
-      "subject": "Contact from website Bakels & Jonker",
+      "subject": "Contact from website",
       "required": ['name','phone','email']
 }
 
 // Error messages
 var error = {
-      "required": "Verplicht veld is nog leeg, probeer a.u.b. nogmaals.",
-      "captcha": "Geef a.u.b. aan of u geen robot bent."
+      "required": "Required field is empty, please try again.",
+      "captcha": "Captcha failed, please try again."
 }
 
 // Mail body
@@ -30,9 +30,9 @@ var html =  '<html>\n';
     html += '<head>\n';
     html += '<style>\n';
     html += '.main{width:100%;max-width:600px;font-family:sans-serif}\n';
-    html += 'caption, .footer{margin:10px 0;background-color:#bd1f44;color:#ffffff;padding:5px}\n';
+    html += 'caption, .footer{margin:10px 0;padding:5px}\n';
     html += '.footer{font-size: 0.7em;}\n';
-    html += '.header,.footer{margin:10px 0;background-color:#bd1f44;color:#ffffff}\n';
+    html += '.header,.footer{margin:10px 0;}\n';
     html += 'table{width:100%;}\n';
     html += 'tr{background-color:#eeeeee;padding:5px}\n';
     html += '.pre{white-space: pre;}\n';
@@ -40,14 +40,13 @@ var html =  '<html>\n';
     html += '</head>\n';
     html += '<div class="main">\n';
     html += '<table>\n';
-    html += '<h2>BAKELS & JONKER</h2>\n';
-    html += '<caption>Bericht van website</caption>\n';
+    html += '<h2>Example response</h2>\n';
+    html += '<caption>Message from website</caption>\n';
     html += '<tr><td>Naam</td><td>' + req.body.name + '</td></tr>\n';
     html += '<tr><td>E-mail</td><td>' + req.body.email + '</td></tr>\n';
     html += '<tr><td>Telefoon</td><td>' + req.body.phone + '</td></tr>\n';
     html += '<tr><td>Vraag</td><td class="pre">' + req.body.question + '</td></tr>\n';
     html += '</table>\n';
-    html += '<div class="footer"> Van Speijkstraat 140 | 2041 KM Zandvoort | tel: 023-5740374 | fax: 023-5740375 | info@bakelsenjonker.nl&nbsp;</div>\n';
     html += '</div>\n';
     html += '</body>\n';
     html += '</html>\n';

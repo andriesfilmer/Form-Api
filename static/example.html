@@ -12,21 +12,25 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <script type="text/javascript" charset="utf-8">
 function registerAPI(form) {
+  // Order off these fields is also the order in the mail 
+  // Without the skiped fields in the forms.json config in the api.
   var params = {
     name: form.name.value,
     phone: form.phone.value,
     email: form.email.value,
-    required: ['name','phone','email'],
     question: form.question.value,
     recaptcha: document.getElementById("g-recaptcha-response").value
   };
 
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:3001/mailer/bakelsenjonker");
+
+  // Set url for delvelopment or production
+  //xhr.open("POST", "http://mailer-form-api.filmer.net/mailer/example");
+  xhr.open("POST", "http://localhost:3001/mailer/example");
   xhr.onload = function() {
     var json = JSON.parse(xhr.responseText);
     console.log(json);
-    if (json.registeredSuccessfully) {
+    if (json.submitSuccessfully) {
       showSuccess();
     } else {
       showError(json.reason);
