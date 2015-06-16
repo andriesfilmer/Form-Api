@@ -27,6 +27,7 @@ var app = express();
 // For production use upstream (nginx.conf).
 app.listen(config_env.api_port);
 console.log('API (' + config_env.name + ') is starting on port ' + config_env.api_port);
+console.log('Cors ' + config_env.cors_url);
 
 app.use(cors(corsOptionsDelegate));
 app.use(bodyParser.json());

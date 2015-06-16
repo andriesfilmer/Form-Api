@@ -18,6 +18,10 @@ Add a file `api/config/secret.js` With:
 
 Read `nginx.conf` for you webserver config.
 
+## Crontab
+
+    NODE_ENV=production;/usr/local/bin/forever start --sourceDir /var/www/form-mailer-api.filmer.net/current/api api.js >> /var/www/form-mailer-api.filmer.net/current/api/log/forever 2>&1
+
 ## Resources
 
 - https://jaxbot.me/articles/new-nocaptcha-recaptcha-with-node-js-express-12-9-2014

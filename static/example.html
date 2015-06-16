@@ -25,7 +25,7 @@ function registerAPI(form) {
   var xhr = new XMLHttpRequest();
 
   // Set url for delvelopment or production
-  //xhr.open("POST", "http://mailer-form-api.filmer.net/mailer/example");
+  //xhr.open("POST", "http://form-mailer-api.filmer.net/mailer/example");
   xhr.open("POST", "http://localhost:3001/mailer/example");
   xhr.onload = function() {
     var json = JSON.parse(xhr.responseText);
