@@ -43,3 +43,7 @@ app.post('/mailer/example', routes.example.create);
 routes.bakelsenjonker = require('./route/bakelsenjonker.js');
 app.post('/mailer/bakelsenjonker', routes.bakelsenjonker.create); 
 
+// http://robertskitesafari.nl -> Booking
+routes.robertskitesafari = require('./route/robertskitesafari.js');
+app.post('/mailer/robertskitesafari', routes.robertskitesafari.create); 
+
