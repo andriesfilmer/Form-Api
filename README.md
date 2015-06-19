@@ -1,5 +1,4 @@
 # API for sending contact forms.
-# Form-Mailer-Api
 
 # Re-Captcha secrets
 
@@ -13,8 +12,7 @@ Add a file `api/config/secret.js` With:
 ## Call the API from your form
 
 - For development use: `http://localhost:3002`
-- For production use: `http://mailer-form-api.filmer.net/route/...` or
-- For production use: `https//mailer-form-api.filmer.net/route/...`
+- For production use: `https//mailer-form-api.filmer.net/route/some-route....`
 
 Read `nginx.conf` for you webserver config.
 

@@ -80,7 +80,7 @@ var html =  '<html>\n';
       sendEmail(envelope, html);
     } else {
       res.end(JSON.stringify({ submitSuccessfully: false, reason: error.captcha }));
-      //console.log('##### curl --data ' + '"secret=' + secret.site_key + "&response=" + req.body["recaptcha"] + '" https://www.google.com/recaptcha/api/siteverify');
+      //console.log('##### curl --data ' + '"secret=' + secret.site_key_robertskitesafari + "&response=" + req.body["recaptcha"] + '" https://www.google.com/recaptcha/api/siteverify');
     }
   });
 
