@@ -13,7 +13,7 @@ var envelope = {
       "from": "booking@robertskitesafari.nl",
       "to": ["doecha@hotmail.com"],
       "bcc": ["andries@filmer.nl"],
-      "subject": "Booking from roberstkitesafari.nl",
+      "subject": "Booking from robertskitesafari.nl",
       "required": ['fullname','phone','email']
 }
 
@@ -119,7 +119,7 @@ var html =  '<html>\n';
         html: juiced
     });
 
-    console.log('Send reminder to: ' + envelope.to); 
+    //console.log('Send mail to: ' + envelope.to); 
 
   }
 
