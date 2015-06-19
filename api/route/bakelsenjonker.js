@@ -15,7 +15,7 @@ exports.create = function(req, res) {
       "to": ["info@bakelsenjonker.nl"],
       "cc": [req.body.email],
       "bcc": ["andries@filmer.nl"],
-      "subject": "Contact from website Bakels & Jonker",
+      "subject": "Contact formulier website Bakels & Jonker",
       "required": ['name','phone','email']
   }
 
