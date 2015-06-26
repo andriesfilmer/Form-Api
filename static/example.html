@@ -25,15 +25,15 @@ function registerAPI(form) {
   var xhr = new XMLHttpRequest();
 
   // Set url for delvelopment or production
-  //xhr.open("POST", "http://form-mailer-api.filmer.net/mailer/example");
-  xhr.open("POST", "http://localhost:3001/mailer/example");
+  //xhr.open("POST", "http://form-mailer-api.filmer.net/example");
+  xhr.open("POST", "http://localhost:3001/example");
   xhr.onload = function() {
     var json = JSON.parse(xhr.responseText);
     console.log(json);
-    if (json.submitSuccessfully) {
+    if (json.success) {
       showSuccess();
     } else {
-      showError(json.reason);
+      showError(json.message);
     }
   }
   xhr.setRequestHeader("Content-type", "application/json");
@@ -54,7 +54,7 @@ function showError(err) {
 <body>
 
 <h2>Contactform</h2>
-<form action="#" method="post" onsubmit="registerAPI(this);return false;" id="form" class="fancy">
+<form action="#" onsubmit="registerAPI(this);return false;" id="form">
 
   <p id="error"></p>
   
@@ -63,11 +63,11 @@ function showError(err) {
   <div class='clear'></div>
 
   <label for='phone'>Phone&nbsp;<sup>*</sup></label>
-  <div class='block'><input type="text" name="phone" id="phone" value="" class=" formtext"  /></div>
+  <div class='block'><input type="text" name="phone" id="phone" value="" /></div>
   <div class='clear'></div>
 
   <label for='email'>E-mail&nbsp;<sup>*</sup></label>
-  <div class='block'><input type="text" name="email" id="email" value="" class=":required :email :only_on_submit formtext"  /></div>
+  <div class='block'><input type="text" name="email" id="email" value="" /></div>
   <div class='clear'></div>
 
   <label for='question'>Question</label>

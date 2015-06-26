@@ -1,0 +1,21 @@
+html
+body
+head
+div.main
+ h3 Contact formulier van de website 
+ table
+  caption Bakels & Jonker
+  tr
+   td Naam 
+   td #{body.name} 
+  tr
+   td Telefoon 
+   td #{body.phone} 
+  tr
+   td email 
+   td #{body.email} 
+  tr
+   td Vraag
+   td.pre #{body.question} 
+ div.footer Dit formulier is verzonden vanaf #{headers.origin}
+

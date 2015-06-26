@@ -3,47 +3,30 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 
 // Set enviroment (development or production)
-var config = require('./config/config.js');
-var config_env = config.env();
-
-// Only allow request from cors_url (set in env.json)
-var whitelist = config_env.cors_url;
-var corsOptionsDelegate = function(req, callback) {
-  var corsOptions;
-  if(whitelist.indexOf(req.header('Origin')) !== -1){
-    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
-  }else{
-    corsOptions = { origin: false }; // disable CORS for this request
-  }
-  callback(null, corsOptions); // callback expects two parameters: error and options
-};
-
-// Get secret (site_key) not in github.
-var secret = require('./config/secret.js');
+var config = require('./config/config.js').env();
 
 // Use Express Framework.
 var app = express();
 
 // For production use upstream (nginx.conf).
-app.listen(config_env.api_port);
-console.log('API (' + config_env.name + ') is starting on port ' + config_env.api_port);
-console.log('Cors ' + config_env.cors_url);
+app.listen(config.api_port);
+console.log('API (' + config.name + ') is starting on port ' + config.api_port);
 
-app.use(cors(corsOptionsDelegate));
 app.use(bodyParser.json());
 
 // Routes
 var routes = {};
 
+// include OPTIONS pre call.
+app.options('*', cors());
+
 // Example form 
-routes.example = require('./route/example.js');
-app.post('/mailer/example', routes.example.create); 
+routes.mailer = require('./mailer.js');
+app.post('/example', cors({origin: ['http://localhost:3000','http://example.nl']}), routes.mailer.create); 
 
 // http://www.bakelsenjonker.nl/p/749/bakels-jonker-boekhoudkantoor-accountancy-contact-opnemen-met-bakels-jonker/index.html
-routes.bakelsenjonker = require('./route/bakelsenjonker.js');
-app.post('/mailer/bakelsenjonker', routes.bakelsenjonker.create); 
+app.post('/p749bakels-jonker-boekhoudkantoor-accountancy-contact-opnemen-met-bakels-jonkerindex', cors({origin: ['http://localhost:3000','http://www.bakelsenjonker.nl']}), routes.mailer.create); 
 
 // http://robertskitesafari.nl -> Booking
-routes.robertskitesafari = require('./route/robertskitesafari.js');
-app.post('/mailer/robertskitesafari', routes.robertskitesafari.create); 
+app.post('/robertskitesafari', cors({origin: ['http://localhost:3000','http://robertskitesafari.nl']}), routes.mailer.create); 
 

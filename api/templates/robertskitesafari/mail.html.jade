@@ -1,0 +1,36 @@
+html
+head
+body
+ div.main
+  h2 Booking Robert's kitesafari
+
+  table
+   caption Booking from website
+   tr
+    td Name
+    td #{body.fullname}
+   tr
+    td E-mail
+    td #{body.email}
+   tr
+    td Phone
+    td #{body.phone}
+   tr
+    td City
+    td #{body.city}
+   tr
+    td Country
+    td #{body.country}
+   tr
+    td Comments
+    td.pre #{body.comments}
+   tr
+    td Arrival date
+    td #{body.arrival}
+   tr
+    td Departure date
+    td #{body.departure}
+
+  div
+   h3 Thank you for booking, we will contact you soon
+  div.footer This form was send from #{headers.origin}

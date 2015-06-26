@@ -1,0 +1,16 @@
+{
+  "envelope": {
+    "from": "info@bakersenjonker.nl",
+    "to": ["info@bakelsenjonker.nl"],
+    "bcc": ["forms@filmer.nl"],
+    "cc": ["forms@filmer.nl"],
+    "subject": "Contact formulier van de website"
+  },
+  "required": "name,phone,email",
+  "recaptcha": true,
+  "error": {
+    "required": "Verplicht veld is nog leeg, probeer a.u.b. nogmaals.",
+    "captcha": "Ik ben geen robot check is nog niet aangevinkt",
+    "mailserver": "Server mail error, neem a.u.b. contact op +31 (0)654 621 734"
+  }
+}

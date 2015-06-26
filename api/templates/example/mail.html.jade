@@ -1,0 +1,20 @@
+html
+body
+head
+div.main
+ h2 Example mail
+ h3 Message from website
+ table
+  caption Form input
+  tr
+   td 
+  tr
+   td Name #{body.name}
+  tr
+   td phone #{body.phone}
+  tr
+   td email #{body.email}
+  tr
+   td.pre question #{body.question}
+ div.footer This form was send from #{headers.origin}
+
