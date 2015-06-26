@@ -1,0 +1,16 @@
+{
+  "envelope": {
+    "from": "info@robertskitesafari.nl",
+    "to": ["info@robertskitesafari.nl"],
+    "bcc": ["forms@filmer.nl"],
+    "cc": ["forms@filmer.nl"],
+    "subject": "Contact from website"
+  },
+  "required": "fullname,phone,email",
+  "recaptcha": true,
+  "error": {
+    "required": "Required field is empty, please try again.",
+    "captcha": "Robot check failed, please try again.",
+    "mailserver": "Server mail error, please contact +31 (0)654 621 734"
+  }
+}
