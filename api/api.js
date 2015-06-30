@@ -14,19 +14,16 @@ console.log('API (' + config.name + ') is starting on port ' + config.api_port);
 
 app.use(bodyParser.json());
 
-// Routes
-var routes = {};
-
 // include OPTIONS pre call.
 app.options('*', cors());
 
 // Example form 
-routes.mailer = require('./mailer.js');
-app.post('/example', cors({origin: ['http://localhost:3000','http://example.nl']}), routes.mailer.create); 
+mailer = require('./mailer.js');
+app.post('/example', cors({origin: ['http://localhost:3000','http://example.nl']}), mailer); 
 
 // http://www.bakelsenjonker.nl/p/749/bakels-jonker-boekhoudkantoor-accountancy-contact-opnemen-met-bakels-jonker/index.html
-app.post('/p749bakels-jonker-boekhoudkantoor-accountancy-contact-opnemen-met-bakels-jonkerindex', cors({origin: ['http://localhost:3000','http://www.bakelsenjonker.nl']}), routes.mailer.create); 
+app.post('/bakelsenjonker', cors({origin: ['http://localhost:3000','http://www.bakelsenjonker.nl']}), mailer); 
 
 // http://robertskitesafari.nl -> Booking
-app.post('/robertskitesafari', cors({origin: ['http://localhost:3000','http://robertskitesafari.nl']}), routes.mailer.create); 
+app.post('/robertskitesafari', cors({origin: ['http://localhost:3000','http://robertskitesafari.nl']}), mailer); 
 

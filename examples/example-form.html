@@ -3,7 +3,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Example re-captcha form</title>
 <style>
-#error {
+
+.block {
+  margin-bottom: 1em;
+}
+
+.required-error {
+  border: 2px solid red;
+  background-color: rgb(244, 209, 209);
+}
+
+#message {
   color: red;
   font-size: large;
 
@@ -12,8 +22,14 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <script type="text/javascript" charset="utf-8">
 function registerAPI(form) {
-  // Order off these fields is also the order in the mail 
-  // Without the skiped fields in the forms.json config in the api.
+
+  // Reset error style classes for required fields.
+  var els = document.getElementsByClassName("required-error");
+  Array.prototype.forEach.call(els, function(el) {
+    el.className = "required";
+  });
+
+  // Set params from form fields.
   var params = {
     name: form.name.value,
     phone: form.phone.value,
@@ -25,8 +41,11 @@ function registerAPI(form) {
   var xhr = new XMLHttpRequest();
 
   // Set url for delvelopment or production
-  //xhr.open("POST", "http://form-mailer-api.filmer.net/example");
+  //xhr.open("POST", "http://form-api.filmer.net/example");
   xhr.open("POST", "http://localhost:3001/example");
+
+  // Set 'x-form-name' to the name of the template on server-site.
+  xhr.setRequestHeader('x-form-template-name', 'example');
   xhr.onload = function() {
     var json = JSON.parse(xhr.responseText);
     console.log(json);
@@ -46,7 +65,13 @@ function showSuccess() {
 }
 
 function showError(err) {
-  document.getElementById("error").innerHTML = err;
+  document.getElementById("message").innerHTML = err;
+  var els = document.getElementsByClassName("required");
+  Array.prototype.forEach.call(els, function(el) {
+    if (el.value == ''){
+      el.className = el.className + " required-error";
+    }
+  });
 }
 
 </script>
@@ -54,25 +79,25 @@ function showError(err) {
 <body>
 
 <h2>Contactform</h2>
+
+<p>This is a simple static html form which only uses javascript on the client-side.<br>
+It wil be send by <a href="https://github.com/andriesfilmer/Form-Api">Form-Api</a> on the sever-side</p>
+
 <form action="#" onsubmit="registerAPI(this);return false;" id="form">
 
-  <p id="error"></p>
+  <p id="message"></p>
   
   <label for='name'>Name&nbsp;<sup>*</sup></label>
-  <div class='block'><input type="text" name="name" id="name" value="" /></div>
-  <div class='clear'></div>
+  <div class='block'><input type="text" name="name" id="name" value="" class="required" /></div>
 
   <label for='phone'>Phone&nbsp;<sup>*</sup></label>
-  <div class='block'><input type="text" name="phone" id="phone" value="" /></div>
-  <div class='clear'></div>
+  <div class='block'><input type="text" name="phone" id="phone" value="" class="required" /></div>
 
   <label for='email'>E-mail&nbsp;<sup>*</sup></label>
-  <div class='block'><input type="text" name="email" id="email" value="" /></div>
-  <div class='clear'></div>
+  <div class='block'><input type="text" name="email" id="email" value="" class="required" /></div>
 
   <label for='question'>Question</label>
   <div class='block'><textarea name="question" id="question" cols="24" rows="5" ></textarea></div>
-  <div class='clear'></div>
 
   <p><sup>*</sup><span class="note"> This field is required</span></p>
 
@@ -84,7 +109,7 @@ function showError(err) {
 </form>
 
 <div id="success" style="display:none">
-  Mail has been send, we will contact you soon.
+  <h3>Mail has been send, we will contact you soon.</h3>
 </div>
 
 </body>

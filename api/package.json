@@ -9,6 +9,7 @@
     "nodemailer": "~1.3.4",
     "email-templates": "~2.0.0-beta.1",
     "jade": "~1.11.0",
-    "nodemailer-html-to-text": "~1.0.1"
+    "nodemailer-html-to-text": "~1.0.1",
+    "fs": "0.0.2"
   }
 }

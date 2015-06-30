@@ -1,76 +1,106 @@
-var emailTemplates = require('email-templates');
+var fs = require('fs');
 var htmlToText = require('nodemailer-html-to-text').htmlToText;
 var nodemailer = require('nodemailer');
+var emailTemplates = require('email-templates');
 var https = require('https');
 
 // Set enviroment (development or production)
 var config = require('./config/config.js').env();
 
-exports.create = function(req, res) {
+module.exports = function(req, res) {
 
   // Debug
   //Object.keys(req.body).forEach(function(key){
   //  console.log('##### body -> ' + key + ": " + req.body[key]); 
   //});
 
-  // Get template name from header or referer
-  if(req.headers['x-form-name'] !== undefined) {
-    var form_name = req.headers['x-form-name']; 
-  } else {
-    var uri = req.headers.referer.replace(req.headers.origin,""); 
-    var form_name = uri.replace(/(html|htm|php|\/|\.)/g,""); 
-  }
+  // First check Form template name
+  checkFormTemplateName(req);
 
-  // Get subject, from, to, and required fields, error messages, etc.
-  var vars = require('./templates/' + form_name + "/vars.json");
-  var secret = require('./templates/' + form_name + "/secret.json");
+  //////////////
+  // Funtions //
+  //////////////
 
-  // Check required fields
-  if (vars.required !== undefined && vars.required !== "") {
-    var requiredFields = true;
-    var required = vars.required.toString().split(",");
-    required.forEach(function(entry) {
-      //console.log('Required -> ' + entry + ": " + req.body[entry]); 
-      if (req.body[entry] === '' || req.body[entry] === undefined) {
-        requiredFields = false; 
-      }
-    });
+  function checkFormTemplateName(req) {
+    // Get template name from header
+    if(req.headers['x-form-template-name'] !== undefined && req.headers['x-form-template-name'] !== "") {
 
-    if (requiredFields) { 
-      // Debug
-      //console.log('Required fields are present.'); 
-      //console.log('# curl --data '+'"secret='+secret.site_key[form_name]+"&response="+req.body["recaptcha"]+'" https://www.google.com/recaptcha/api/siteverify');
-      checkReCaptcha();
-    }
-    else {
-      console.log('Required fields are not present!'); 
-      res.end(JSON.stringify({ success: false, message: vars.error.required }));
-    }
-  }
-  else {
-    console.log('Required disabled!'); 
-    checkReCaptcha();
-  }
+      var form_name = req.headers['x-form-template-name']; 
 
-  function checkReCaptcha() {
-    if (vars.recaptcha) {
-      verifyRecaptcha(req.body.recaptcha, secret.site_key[form_name], function(success) {
-        if (success) {
-          //console.log('Captcha success: ' + success); 
-          sendMail();
+      // Or get form_name from referer (temporarily disabled).
+      //var uri = req.headers.referer.replace(req.headers.origin,""); 
+      //var form_name = uri.replace(/(html|htm|php|\/|\.)/g,""); 
+
+      fs.exists('./templates/' + form_name, function (exists) {
+        //console.log(exists ? form_name + " template does exists" : form_name + " template does not exits!");
+        if(exists){
+
+          // Get subject, from, to, and required fields, error messages, etc.
+          var vars = require('./templates/' + form_name + "/vars.json");
+          var secret = require('./templates/' + form_name + "/secret.json");
+
+          checkRequiredFields(req,vars,secret);
+
         } else {
-          //console.log('Captcha failure :' + success); 
+          return res.end(JSON.stringify({ success: false, message: 'Template does not exists!' }));
+        }
+      });
+
+    } else {
+      return res.end(JSON.stringify({ success: false, message: 'missing x-form-template-name header' }));
+    }
+  }
+
+  function checkRequiredFields(req, vars, secret) {
+
+    if (vars.required !== undefined && vars.required !== "") {
+      var requiredFields = true;
+      var required = vars.required.toString().split(",");
+      required.forEach(function(entry) {
+        //console.log('Required -> ' + entry + ": " + req.body[entry]); 
+        if (req.body[entry] === '' || req.body[entry] === undefined) {
+          requiredFields = false; 
+        }
+      });
+
+      if (requiredFields) {
+
+        checkRecaptcha(req,vars,secret);
+
+      } else {
+
+        //console.log('Required fields are not present!'); 
+        return res.end(JSON.stringify({ success: false, message: vars.error.required }));
+      }
+    } else {
+
+      //console.log('No required fields needed'); 
+      checkRecaptcha(req,vars,secret);
+    }
+  }
+
+  function checkRecaptcha(req, vars, secret) {
+
+    if (vars.recaptcha) {
+
+      //console.log('# curl --data '+'"secret='+secret.site_key+"&response="+req.body["recaptcha"]+'" https://www.google.com/recaptcha/api/siteverify');
+      verifyRecaptcha(req.body.recaptcha, secret.site_key, function(success) {
+
+        if (success) {
+          //console.log('Captcha success'); 
+          sendMail(req, vars);
+        } else {
+          //console.log('Captcha failure'); 
           res.end(JSON.stringify({ success: false, message: vars.error.captcha }));
         }
       });
-    }
-    else {
-      console.log('Recaptcha disabled'); 
-      sendMail();
-      res.end(JSON.stringify({ message: "Re-captach disabled!" }));
+
+    } else {
+
+      //console.log('Recaptcha disabled'); 
+      sendMail(req, vars);
     }
   }
-
 
   function verifyRecaptcha(key, site_key, callback) {
     https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + site_key + "&response=" + key, function(res) {
@@ -89,15 +119,12 @@ exports.create = function(req, res) {
     });
   }
 
-  function sendMail() {
-    //console.log('Jump into sendMail function.'); 
+  function sendMail(req, vars) {
     emailTemplates('templates', function(err, template) {
 
       if (err) {
         console.log(err);
-        res.end(JSON.stringify({ success: false , message: 'Template error'}));
-      } 
-      else {
+      } else {
 
         var transport = nodemailer.createTransport({ 
           port: config.mail_port,
@@ -105,12 +132,12 @@ exports.create = function(req, res) {
         });
 
         // Send a single email
-        template(form_name, req, function(err, html, text) {
+        template(req.headers['x-form-template-name'], req, function(err, html, text) {
           if (err) {
             console.log(err);
             res.end(JSON.stringify({ success: false , message: 'Form name error'}));
           } else {
-            transport.use('compile', htmlToText({tables:['.blater']}));
+            transport.use('compile', htmlToText());
             transport.sendMail({
               from: vars.envelope.from,
               to: vars.envelope.to,
@@ -123,8 +150,8 @@ exports.create = function(req, res) {
                 res.end(JSON.stringify({ success: false , message: vars.error.mailserver}));
                 return res.sendStatus(500); // Server Error.
               } else {
-                console.dir(responseStatus.response);
-                res.end(JSON.stringify({ success: true }));
+                //console.dir(responseStatus.response);
+                return res.end(JSON.stringify({ success: true, message: responseStatus.response }));
               }
             });
           }
