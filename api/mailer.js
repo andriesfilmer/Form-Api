@@ -10,9 +10,9 @@ var config = require('./config/config.js').env();
 module.exports = function(req, res) {
 
   // Debug
-  //Object.keys(req.body).forEach(function(key){
-  //  console.log('##### body -> ' + key + ": " + req.body[key]); 
-  //});
+  Object.keys(req.body).forEach(function(key){
+    console.log('##### body -> ' + key + ": " + req.body[key]); 
+  });
 
   // First check Form template name
   checkFormTemplateName(req);
@@ -47,7 +47,7 @@ module.exports = function(req, res) {
       });
 
     } else {
-      return res.end(JSON.stringify({ success: false, message: 'missing x-form-template-name header' }));
+      return res.end(JSON.stringify({ success: false, message: 'Missing x-form-template-name header' }));
     }
   }
 
@@ -81,9 +81,11 @@ module.exports = function(req, res) {
 
   function checkRecaptcha(req, vars, secret) {
 
+    // Debug
+    //console.log('# curl --data '+'"secret='+secret.site_key+"&response="+req.body["recaptcha"]+'" https://www.google.com/recaptcha/api/siteverify');
+
     if (vars.recaptcha) {
 
-      //console.log('# curl --data '+'"secret='+secret.site_key+"&response="+req.body["recaptcha"]+'" https://www.google.com/recaptcha/api/siteverify');
       verifyRecaptcha(req.body.recaptcha, secret.site_key, function(success) {
 
         if (success) {

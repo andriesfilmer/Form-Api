@@ -41,10 +41,10 @@ function registerAPI(form) {
   var xhr = new XMLHttpRequest();
 
   // Set url for delvelopment or production
-  //xhr.open("POST", "http://form-api.filmer.net/example");
-  xhr.open("POST", "http://localhost:3001/example");
+  //xhr.open("POST", "http://form-api.filmer.net/mailer");
+  xhr.open("POST", "http://localhost:3001/mailer");
 
-  // Set 'x-form-name' to the name of the template on server-site.
+  // Set 'x-form-template-name' to the name of the template on server-site.
   xhr.setRequestHeader('x-form-template-name', 'example');
   xhr.onload = function() {
     var json = JSON.parse(xhr.responseText);

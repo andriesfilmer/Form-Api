@@ -7,19 +7,35 @@
 <meta name="keywords" content="bakels, jonker, zandvoort, boekhoudkantoor, boekhouden, zzp, zzp'er, aangifte, belasting, administratie, belastingdienst, accountancy, jaarrekening, belastingaangiftes ,financiele administratie, jaarekeningen, startende ondernemers
 " />
 <meta name="description" content="Boekhoudkantoor Bakels & Jonker is al jaren een begrip in en om Zandvoort. Wij begeleiden particulieren en bedrijven om een overzichtelijke administratie te voeren.tevens kunt u natuurlijk contact opnemen met BAKELS & JONKER." />
-<link rel="icon" type="image/x-icon" href="../../../userfiles/31/background/favicon.ico" />
 <title>BAKELS & JONKER | Boekhoudkantoor | Accountancy | Contact opnemen met BAKELS & JONKER</title>
 <style>
-#error {
+
+.block {
+  margin-bottom: 1em;
+}
+
+.required-error {
+  border: 2px solid red;
+  background-color: rgb(244, 209, 209);
+}
+
+#message {
   color: red;
-  font-size: 14px;
+  font-size: large;
+
 }
 </style>
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <script type="text/javascript" charset="utf-8">
 function registerAPI(form) {
-  // Order off these fields is also the order in the mail 
-  // Without the skiped fields in the forms.json config in the api.
+
+  // Reset error style classes for required fields.
+  var els = document.getElementsByClassName("required-error");
+  Array.prototype.forEach.call(els, function(el) {
+    el.className = "required";
+  });
+
+  // Set params from form fields.
   var params = {
     name: form.name.value,
     phone: form.phone.value,
@@ -27,10 +43,15 @@ function registerAPI(form) {
     question: form.question.value,
     recaptcha: document.getElementById("g-recaptcha-response").value
   };
+
   var xhr = new XMLHttpRequest();
+
   // Set url for delvelopment or production
-  //xhr.open("POST", "http://form-api.filmer.net/bakelsenjonker");
-  xhr.open("POST", "http://localhost:3001/bakelsenjonker");
+  //xhr.open("POST", "http://form-api.filmer.net/mailer");
+  xhr.open("POST", "http://localhost:3001/mailer");
+
+  // Set 'x-form-template-name' to the name of the template on server-site.
+  xhr.setRequestHeader('x-form-template-name', 'bakelsenjonker');
   xhr.onload = function() {
     var json = JSON.parse(xhr.responseText);
     console.log(json);
@@ -43,34 +64,40 @@ function registerAPI(form) {
   xhr.setRequestHeader("Content-type", "application/json");
   xhr.send(JSON.stringify(params));
 }
+
 function showSuccess() {
   document.getElementById("form").style.display = "none";
   document.getElementById("success").style.display = "block";
 }
-function showError(err) {
-  document.getElementById("error").innerHTML = err;
-}
-		
-	
-</script>
 
+function showError(err) {
+  document.getElementById("message").innerHTML = err;
+  var els = document.getElementsByClassName("required");
+  Array.prototype.forEach.call(els, function(el) {
+    if (el.value == ''){
+      el.className = el.className + " required-error";
+    }
+  });
+}
+
+</script>
 </head>
 <body>
 <div class="contactform">
 	<h2>Contactformulier</h2>
 		<div class="formulier"><form action="#" method="post" onsubmit="registerAPI(this);return false;" id="form" class="fancy">
-                <p id="error"></p>
+                <p id="message"></p>
                 <label for='element_4e09f70f7d4b5'>Uw Naam&nbsp;<sup>*</sup></label>
 					<div class='block'>					
-						<input type="text" name="name" id="name" value="" class="formtext"  /></div>
+						<input type="text" name="name" id="name" value="" class="required"  /></div>
 					<div class='clear'></div>
 			<label for='element_4e09f72374343'>Uw telefoonnummer&nbsp;<sup>*</sup></label>
 					<div class='block'>					
-						<input type="text" name="phone" id="phone" value="" class="formtext"  /></div>
+						<input type="text" name="phone" id="phone" value="" class="required"  /></div>
 					<div class='clear'></div>
 			<label for='element_4e09f70f7dc7f'>Uw E-mail adres&nbsp;<sup>*</sup></label>
 					<div class='block'>					
-						<input type="text" name="email" id="email" value="" class="formtext"  /></div>
+						<input type="text" name="email" id="email" value="" class="required"  /></div>
 					<div class='clear'></div>
 			<label for='element_4e09f70f7e093'>Uw Vraag</label>
 					<div class='block'>					
