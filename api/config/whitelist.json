@@ -1,0 +1,7 @@
+{
+  "hosts": [
+    "http://localhost:3000",
+    "http://www.bakelsenjonker.nl",
+    "http://robertskitesafari.nl"
+  ]
+}

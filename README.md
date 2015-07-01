@@ -34,6 +34,8 @@ Copy `api/example/` directorie to other `api/x-form-template-name/` directorie.
 
 Set your config in `api/x-form-template-name/vars.json` file.
 
+Add your host/website to the whitelist `config/whitelist.json`
+
 ### Re-Captcha secrets
 
 If you enable `re-captcha` then you have to create your Re-Captcha keys 

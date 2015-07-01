@@ -10,9 +10,9 @@ var config = require('./config/config.js').env();
 module.exports = function(req, res) {
 
   // Debug
-  Object.keys(req.body).forEach(function(key){
-    console.log('##### body -> ' + key + ": " + req.body[key]); 
-  });
+  //Object.keys(req.body).forEach(function(key){
+  //  console.log('##### body -> ' + key + ": " + req.body[key]); 
+  //});
 
   // First check Form template name
   checkFormTemplateName(req);
