@@ -1,7 +1,7 @@
 {
   "name": "Form-mailer",
   "description": "API for sending html forms",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "dependencies": {
     "express": "latest",
     "body-parser": "~1.12.4",

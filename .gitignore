@@ -1,5 +1,6 @@
 *.swp
 app/bower_components/
+api/log/forever
 api/node_modules
 api/templates/*/secret.json
 

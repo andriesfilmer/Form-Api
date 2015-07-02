@@ -10,9 +10,16 @@
 <link rel="icon" type="image/x-icon" href="../../../userfiles/31/background/favicon.ico" />
 <title>BAKELS & JONKER | Boekhoudkantoor | Accountancy | Contact opnemen met BAKELS & JONKER</title>
 <style>
-#error {
+.block {
+  margin-bottom: 1em;
+}
+.required-error {
+  border: 2px solid red;
+  background-color: rgb(244, 209, 209);
+}
+#message {
   color: red;
-  font-size: 14px;
+  font-size: large;
 }
 </style>
 <script src="http://www.google.com/jsapi"></script>
@@ -48,26 +55,32 @@ google.load("jquery", "1.3.2");
 <script src="../../../js/mediaelementplayer/mediaelement-and-player.min.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
 function registerAPI(form) {
-  // Order off these fields is also the order in the mail 
-  // Without the skiped fields in the forms.json config in the api.
+  // Reset error style classes for required fields.
+  var els = document.getElementsByClassName("required-error");
+  Array.prototype.forEach.call(els, function(el) {
+    el.className = "required";
+  });
+  // Set params from form fields.
   var params = {
     name: form.name.value,
     phone: form.phone.value,
     email: form.email.value,
     question: form.question.value,
-    required: ['name','phone','email'],
     recaptcha: document.getElementById("g-recaptcha-response").value
   };
   var xhr = new XMLHttpRequest();
   // Set url for delvelopment or production
-  xhr.open("POST", "http://form-mailer-api.filmer.net/mailer/bakelsenjonker");
+  xhr.open("POST", "http://form-api.filmer.net/mailer");
+  //xhr.open("POST", "http://localhost:3001/mailer");
+  // Set 'x-form-template-name' to the name of the template on server-site.
+  xhr.setRequestHeader('x-form-template-name', 'bakelsenjonker');
   xhr.onload = function() {
     var json = JSON.parse(xhr.responseText);
     console.log(json);
-    if (json.submitSuccessfully) {
+    if (json.success) {
       showSuccess();
     } else {
-      showError(json.reason);
+      showError(json.message);
     }
   }
   xhr.setRequestHeader("Content-type", "application/json");
@@ -78,24 +91,15 @@ function showSuccess() {
   document.getElementById("success").style.display = "block";
 }
 function showError(err) {
-  document.getElementById("error").innerHTML = err;
+  document.getElementById("message").innerHTML = err;
+  var els = document.getElementsByClassName("required");
+  Array.prototype.forEach.call(els, function(el) {
+    if (el.value == ''){
+      el.className = el.className + " required-error";
+    }
+  });
 }
-		
-	
 </script>
-<script type="text/javascript" charset="utf-8">
-	
-	$(function(){
-		// find all the input elements with title attributes
-		$('input[title!=""]').hint();
-
-		//convert audio en video elements
-//		$('audio,video').mediaelementplayer();
-	});
-	
-	
-	</script>
-
 <link rel="stylesheet" type="text/css" href="../../../css/custom-theme/jquery-ui-1.7.2.custom.css" />
 <link rel="stylesheet"  type="text/css" href="../../0/css/index.css" />
 
@@ -182,7 +186,7 @@ function showError(err) {
 	<h2>
 		Contactformulier</h2>
 		<div class="formulier"><form action="#" method="post" onsubmit="registerAPI(this);return false;" id="form" class="fancy">
-                <p id="error"></p>
+                <p id="message"></p>
 		<input type="hidden" name="formulier_id" value="51">
 		<input type="hidden" name="spamcheck" class="spamcheck" value="SPAM">
 		<noscript>
@@ -192,15 +196,15 @@ function showError(err) {
 			<fieldset class='sml'>
                 <label for='element_4e09f70f7d4b5'>Uw Naam&nbsp;<sup>*</sup></label>
 					<div class='block'>					
-						<input type="text" name="name" id="name" value="" class="formtext"  /></div>
+						<input type="text" name="name" id="name" value="" class="required"  /></div>
 					<div class='clear'></div>
 			<label for='element_4e09f72374343'>Uw telefoonnummer&nbsp;<sup>*</sup></label>
 					<div class='block'>					
-						<input type="text" name="phone" id="phone" value="" class="formtext"  /></div>
+						<input type="text" name="phone" id="phone" value="" class="required"  /></div>
 					<div class='clear'></div>
 			<label for='element_4e09f70f7dc7f'>Uw E-mail adres&nbsp;<sup>*</sup></label>
 					<div class='block'>					
-						<input type="text" name="email" id="email" value="" class="formtext"  /></div>
+						<input type="text" name="email" id="email" value="" class="required"  /></div>
 					<div class='clear'></div>
 			<label for='element_4e09f70f7e093'>Uw Vraag</label>
 					<div class='block'>					
@@ -209,7 +213,7 @@ function showError(err) {
 							
 				<p><sup>*</sup><span class="note"> Dit veld is verplicht</span></p>
 
-				<div class="g-recaptcha" data-sitekey="6Lf7UwgTAAAAANdbikeI4WwGTYMCk_mvBF2Ze9oC"></div>
+				<div class="g-recaptcha" data-sitekey="6Lf_GwgTAAAAAGk1bXAjUgEh2xJeRFPbktsoa_bC"></div>
 
 				<p align="right"><input type="submit" value="Verzenden" /></p>					
 			</fieldset>

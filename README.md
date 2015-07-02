@@ -1,6 +1,6 @@
 # API for sending html forms.
 
-This API will accept html forms and e-mail them.
+This API accepts html forms and send a e-mail.
 
 ## Features
 
@@ -21,7 +21,7 @@ Look voor examples in the `examples` directorie.
 
 There is also a AngularJs implementation which you can find on 
 [Github](https://github.com/andriesfilmer/robertskitesafari) or 
-live [robertskitesafari.nl](http://robertkitesafari.nl)
+live [robertskitesafari.nl](http://robertskitesafari.nl) -> Booking form.
 
 ## Install server-side
 
@@ -30,18 +30,18 @@ live [robertskitesafari.nl](http://robertkitesafari.nl)
 
 ### Config
 
-Copy `api/example/` directorie to other `api/x-form-template-name/` directorie.
+Copy `api/templates/example/` directorie to other `api/templates/[x-form-template-name]/` directorie.
 
 Set your config in `api/x-form-template-name/vars.json` file.
 
-Add your host/website to the whitelist `config/whitelist.json`
+Add your host/website to the whitelist `api/config/whitelist.json`
 
 ### Re-Captcha secrets
 
-If you enable `re-captcha` then you have to create your Re-Captcha keys 
+If you enable `re-captcha` in `vars.json` then you have to create your Re-Captcha keys 
 on [Google re-captcha](https://www.google.com/recaptcha/).
 
-Create a file `api/[x-form-template-name]/secret.json` which is not in Github (.gitignore)
+Create a file `api/[x-form-template-name]/secret.json` which is not in Github (i.o. .gitignore)
 
     {
       "site_key": "--your-secret-key-from-google-recaptcha--"
