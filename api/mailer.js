@@ -31,13 +31,13 @@ module.exports = function(req, res) {
       //var uri = req.headers.referer.replace(req.headers.origin,""); 
       //var form_name = uri.replace(/(html|htm|php|\/|\.)/g,""); 
 
-      fs.exists('./templates/' + form_name, function (exists) {
+      fs.exists(__dirname + '/templates/' + form_name, function (exists) {
         //console.log(exists ? form_name + " template does exists" : form_name + " template does not exits!");
         if(exists){
 
           // Get subject, from, to, and required fields, error messages, etc.
-          var vars = require('./templates/' + form_name + "/vars.json");
-          var secret = require('./templates/' + form_name + "/secret.json");
+          var vars = require(__dirname + '/templates/' + form_name + "/vars.json");
+          var secret = require(__dirname + '/templates/' + form_name + "/secret.json");
 
           checkRequiredFields(req,vars,secret);
 
@@ -122,9 +122,10 @@ module.exports = function(req, res) {
   }
 
   function sendMail(req, vars) {
-    emailTemplates('templates', function(err, template) {
+    emailTemplates(__dirname + '/templates', function(err, template) {
 
       if (err) {
+        console.log("function sendMail error:");
         console.log(err);
       } else {
 
@@ -136,6 +137,7 @@ module.exports = function(req, res) {
         // Send a single email
         template(req.headers['x-form-template-name'], req, function(err, html, text) {
           if (err) {
+            console.log("function sendMail template");
             console.log(err);
             res.end(JSON.stringify({ success: false , message: 'Form name error'}));
           } else {
@@ -149,10 +151,12 @@ module.exports = function(req, res) {
             }, function(err, responseStatus) {
               if (err) {
                 console.log(err);
+                console.log("function sendMail transport error:");
                 res.end(JSON.stringify({ success: false , message: vars.error.mailserver}));
                 return res.sendStatus(500); // Server Error.
               } else {
-                //console.dir(responseStatus.response);
+                console.log("SendMail for " + template);
+                console.dir(responseStatus.response);
                 return res.end(JSON.stringify({ success: true, message: responseStatus.response }));
               }
             });

@@ -1,0 +1,27 @@
+html
+body
+head
+div.main
+ h2 Bestelling erotischboek
+ table
+  caption Formulier
+  tr
+   td Code
+   td #{body.code}
+  tr
+   td Naam 
+   td #{body.naam}
+  tr
+   td E-mail 
+   td #{body.email}
+  tr
+   td Adres 
+   td #{body.adres}
+  tr
+   td Postcode en Plaats 
+   td #{body.postcode} #{body.plaats}
+  tr
+   td Product 
+   td #{body.product}
+ div.footer This form was send from #{headers.origin}
+

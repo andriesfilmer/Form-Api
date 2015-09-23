@@ -1,0 +1,33 @@
+.main {
+  width: 100%;
+  max-width: 600px;
+  font-family: sans-serif
+}
+
+caption, .footer {
+  color: #ffffff;
+  background-color: brown;
+  text-align: left;
+  padding: 5px;
+}
+
+.footer{
+  font-size: 0.7em;
+}
+
+.header, .footer{
+  padding: 10px;
+}
+
+table{
+  width: 100%;
+}
+
+tr{
+  background-color: #eeeeee;
+  padding: 5px
+}
+
+.pre{
+  white-space: pre;
+}

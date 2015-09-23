@@ -1,0 +1,16 @@
+{
+  "envelope": {
+    "from": "andries@filmer.nl",
+    "to": ["andries@filmer.nl"],
+    "bcc": ["forms@filmer.nl"],
+    "cc": ["forms@filmer.nl"],
+    "subject": "Contact from website"
+  },
+  "required": "url,email",
+  "recaptcha": false,
+  "error": {
+    "required": "Noodzakelijke velden zijn verplicht, probeer aub nogmaals.",
+    "captcha": "Captcha failed, please try again.",
+    "mailserver": "Server mail error, please contact +31 (0)654 621 734"
+  }
+}
