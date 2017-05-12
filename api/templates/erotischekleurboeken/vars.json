@@ -1,11 +1,11 @@
 {
   "envelope": {
     "from": "bestelling@erotischekleurboeken.nl",
-    "to": ["andries@filmer.nl"],
+    "to": ["info@studiosackodijkema.nl"],
     "bcc": ["forms@filmer.nl"],
     "subject": "Bestelling voor erotischekleurboek"
   },
-  "required": "adres,plaats,postcode,email",
+  "required": "naam,adres,plaats,postcode",
   "recaptcha": false,
   "error": {
     "required": "Verplichte velden zijn nog leeg, probeer aub nogmaals.",

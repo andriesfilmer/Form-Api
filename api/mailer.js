@@ -146,6 +146,7 @@ module.exports = function(req, res) {
               from: vars.envelope.from,
               to: vars.envelope.to,
               cc: vars.envelope.cc,
+              bcc: vars.envelope.bcc,
               subject: vars.envelope.subject,
               html: html
             }, function(err, responseStatus) {
@@ -155,7 +156,7 @@ module.exports = function(req, res) {
                 res.end(JSON.stringify({ success: false , message: vars.error.mailserver}));
                 return res.sendStatus(500); // Server Error.
               } else {
-                console.log("SendMail for " + template);
+                console.log("SendMail for " + vars.envelope.from);
                 console.dir(responseStatus.response);
                 return res.end(JSON.stringify({ success: true, message: responseStatus.response }));
               }

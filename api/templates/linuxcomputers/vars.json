@@ -2,8 +2,7 @@
   "envelope": {
     "from": "andries@filmer.nl",
     "to": ["andries@filmer.nl"],
-    "bcc": ["forms@filmer.nl"],
-    "cc": ["forms@filmer.nl"],
+    "bcc": ["andries.filmer@gmail.com"],
     "subject": "Contact from website"
   },
   "required": "url,email",

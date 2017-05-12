@@ -3,7 +3,6 @@
     "from": "info@robertskitesafari.nl",
     "to": ["info@robertskitesafari.nl"],
     "bcc": ["forms@filmer.nl"],
-    "cc": ["forms@filmer.nl"],
     "subject": "Contact from website"
   },
   "required": "fullname,phone,email",

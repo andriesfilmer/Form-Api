@@ -3,7 +3,6 @@
     "from": "info@bakersenjonker.nl",
     "to": ["info@bakelsenjonker.nl"],
     "bcc": ["forms@filmer.nl"],
-    "cc": ["forms@filmer.nl"],
     "subject": "Contact formulier van de website"
   },
   "required": "name,phone,email",
