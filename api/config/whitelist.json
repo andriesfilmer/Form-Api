@@ -1,13 +1,11 @@
 {
   "hosts": [
     "http://localhost:3000",
-    "http://test.filmer.net:3000",
     "http://linuxcomputers.nl",
     "http://www.bakelsenjonker.nl",
     "http://bakelsenjonker.nl",
     "http://robertskitesafari.nl",
-    "http://zuiderzeezeilen.nl",
-    "http://erotischekleurboeken.nl",
-    "http://wvzandvoort.nl"
+    "https://zuiderzeezeilen.nl",
+    "https://wvzandvoort.nl"
   ]
 }

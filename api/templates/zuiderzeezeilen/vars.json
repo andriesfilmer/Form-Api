@@ -1,7 +1,7 @@
 {
   "envelope": {
-    "from": "o.roselaar@xs4all.nl",
-    "to": ["o.roselaar@xs4all.nl"],
+    "from": "oroselaar@ziggo.nl",
+    "to": ["oroselaar@ziggo.nl"],
     "bcc": ["forms@filmer.nl"],
     "subject": "Contact from website"
   },

@@ -3,13 +3,13 @@
   "description": "API for sending html forms",
   "version": "0.1.0",
   "dependencies": {
-    "express": "latest",
-    "body-parser": "~1.12.4",
+    "body-parser": "^1.19.0",
     "cors": "latest",
-    "nodemailer": "~1.3.4",
     "email-templates": "~2.0.0-beta.1",
+    "express": "latest",
+    "fs": "0.0.2",
     "jade": "~1.11.0",
-    "nodemailer-html-to-text": "~1.0.1",
-    "fs": "0.0.2"
+    "nodemailer": "~1.3.4",
+    "nodemailer-html-to-text": "~1.0.1"
   }
 }

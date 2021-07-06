@@ -1,0 +1,16 @@
+{
+  "envelope": {
+    "from": "do-not-reply@wvzandvoort.nl",
+    "to": ["keukengeheimen@online.nl"],
+    "bcc": ["forms@filmer.nl"],
+    "cc": ["kantinecommissaris@wvzandvoort.nl"],
+    "subject": "WVZ Clubdiner as donderdag"
+  },
+  "required": "name,phone,email,people",
+  "recaptcha": false,
+  "error": {
+    "required": "Verplichte velden zijn nog leeg, probeer het nog eens.",
+    "captcha": "Captcha failed, please try again.",
+    "mailserver": "Server mail error, bel andries +31 (0)654 621 734"
+  }
+}

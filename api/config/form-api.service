@@ -1,0 +1,21 @@
+[Unit]
+Description=Form-Api Express HTTP Server
+After=network.target
+
+[Service]
+Type=simple
+User=nodejs
+Group=www-data
+
+Environment=NODE_ENV=production
+Environment=PATH=/usr/bin:/usr/local/bin
+WorkingDirectory=/var/www/form-api.filmer.net/current/api
+
+#ExecStart=/usr/local/lib/node_modules/forever/bin/forever start --sourceDir /var/www/form-api.filmer.net/current/api api.js
+ExecStart=/usr/bin/node /var/www/form-api.filmer.net/current/api/api.js
+PIDFile=/var/www/form-api.filmer.net/current/api/form-api.pid
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

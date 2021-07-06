@@ -3,6 +3,7 @@ var htmlToText = require('nodemailer-html-to-text').htmlToText;
 var nodemailer = require('nodemailer');
 var emailTemplates = require('email-templates');
 var https = require('https');
+var varsToLength
 
 // Set enviroment (development or production)
 var config = require('./config/config.js').env();
@@ -134,6 +135,14 @@ module.exports = function(req, res) {
           ignoreTLS: true
         });
 
+        // Do we need to send a confirmation mail to 'email'?
+        if (vars.confirmation !== undefined && vars.confirmation === true && req.body.email !== undefined && req.body.email !== "") {
+          varsToLength = vars.envelope.to.length;
+          vars.envelope.to.push(req.body.email);
+          console.log("Req body email  : " + req.body.email);
+          console.log("Vars envelope to: " + vars.envelope.to);
+        }
+
         // Send a single email
         template(req.headers['x-form-template-name'], req, function(err, html, text) {
           if (err) {
@@ -163,6 +172,12 @@ module.exports = function(req, res) {
             });
           }
         });
+
+        // Reset vars.envelope.to vars.
+        if (vars.envelope.to.length > varsToLength) {
+          vars.envelope.to.pop();
+        }
+
       }
    });
  }
